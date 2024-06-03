@@ -1,0 +1,2 @@
+CREATE DATABASE ms_order;
+CREATE DATABASE ms_product;

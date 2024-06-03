@@ -1,0 +1,51 @@
+variables:
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - build
+  - test
+  - push
+  - deploy
+
+services:
+  - docker:19.03.12-dind
+
+before_script:
+  - docker info
+
+build:
+  stage: build
+  script:
+    - docker-compose -f docker-compose.yaml build
+  artifacts:
+    paths:
+      - docker-compose.yaml
+
+test:
+  stage: test
+  script:
+    - docker-compose -f docker-compose.yaml up -d
+    - docker-compose -f docker-compose.yaml exec api-gateway npm test -- --coverage
+    - docker-compose -f docker-compose.yaml exec auth-service npm test -- --coverage
+    - docker-compose -f docker-compose.yaml exec order-service npm test -- --coverage
+    - docker-compose -f docker-compose.yaml exec product-service npm test -- --coverage
+  artifacts:
+    paths:
+      - coverage/
+
+push:
+  stage: push
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker-compose -f docker-compose.yaml push
+
+deploy:
+  stage: deploy
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker-compose -f docker-compose.yaml pull
+    - docker-compose -f docker-compose.yaml up -d
+  only:
+    - main
