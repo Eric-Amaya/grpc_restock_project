@@ -19,7 +19,7 @@ before_script:
 build:
   stage: build
   script:
-    - docker-compose -f docker-compose.yaml build --verbose
+    - docker-compose -f docker-compose.yaml build
   timeout: 20m
   artifacts:
     paths:
