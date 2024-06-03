@@ -8,11 +8,12 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install system dependencies and update npm
-RUN apt-get update && \
-    apt-get install -y build-essential python protobuf-compiler && \
-    npm install -g npm@latest && \
-    npm install && \
-    apt-get clean
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python \
+    protobuf-compiler \
+    && npm install -g npm@latest \
+    && apt-get clean
 
 # Install any needed packages specified in package.json
 RUN npm install
@@ -31,4 +32,4 @@ EXPOSE 5053
 RUN npm run build
 
 # Ejecuta la aplicación cuando se inicie el contenedor
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
