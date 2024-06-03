@@ -7,10 +7,6 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json into the directory /app in the container
 COPY package*.json ./
 
-# Install system dependencies and update npm
-RUN apt-get update && apt-get install -y \
-    protobuf-compiler
-
 # Install any needed packages specified in package.json
 RUN npm install
 
