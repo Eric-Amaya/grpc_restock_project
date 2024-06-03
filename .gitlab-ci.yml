@@ -11,7 +11,7 @@ stages:
   - deploy
 
 services:
-  - docker:19.03.12-dind
+  - docker:24.0.5-dind
 
 before_script:
   - docker info
