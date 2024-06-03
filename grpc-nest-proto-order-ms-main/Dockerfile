@@ -1,19 +1,11 @@
 # Use an official Node.js runtime as the base image
-FROM node:18
+FROM node:18.18.0-alpine
 
 # Set the working directory in the container to /app
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json into the directory /app in the container
 COPY package*.json ./
-
-# Install system dependencies and update npm
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python \
-    protobuf-compiler \
-    && npm install -g npm@latest \
-    && apt-get clean
 
 # Install any needed packages specified in package.json
 RUN npm install
@@ -32,4 +24,4 @@ EXPOSE 5052
 RUN npm run build
 
 # Ejecuta la aplicación cuando se inicie el contenedor
-CMD ["npm", "run", "start"]
+CMD [ "node", "dist/main.js" ]
