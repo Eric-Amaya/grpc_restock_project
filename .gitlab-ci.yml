@@ -20,10 +20,10 @@ build:
   stage: build
   script:
     - docker-compose -f docker-compose.yaml build
-    - docker tag api-gateway ericamaya29/api-gateway:latest
-    - docker tag auth-service ericamaya29/auth-service:latest
-    - docker tag order-service ericamaya29/order-service:latest
-    - docker tag product-service ericamaya29/product-service:latest
+    - docker tag api-gateway ericamaya29/api-gateway
+    - docker tag auth-service ericamaya29/auth-service
+    - docker tag order-service ericamaya29/order-service
+    - docker tag product-service ericamaya29/product-service
   timeout: 20m
   artifacts:
     paths:
