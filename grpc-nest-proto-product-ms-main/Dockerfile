@@ -1,6 +1,11 @@
 # Use an official Node.js runtime as the base image
 FROM node:20
 
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive \
+    apt-get install --no-install-recommends --assume-yes \
+      protobuf-compiler
+
 # Set the working directory in the container to /app
 WORKDIR /app
 
