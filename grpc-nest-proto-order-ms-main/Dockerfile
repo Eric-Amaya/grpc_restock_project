@@ -7,8 +7,8 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json into the directory /app in the container
 COPY package*.json ./
 
-# Añadir las claves públicas antes de apt-get update
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131 F8D2585B8783D481 54404762BBB6E853 BDE6D2B9216EC7A8
+# Instalar el paquete debian-archive-keyring para obtener las claves
+RUN apt-get update && apt-get install -y debian-archive-keyring
 RUN apt-get update && apt-get install -y protobuf-compiler
 
 # Install any needed packages specified in package.json
