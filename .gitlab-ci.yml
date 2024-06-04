@@ -47,7 +47,7 @@ test:
   artifacts:
     paths:
       - coverage/
-    - echo "Tests completed. Saving coverage reports."
+  - echo "Tests completed. Saving coverage reports."
 
 deploy:
   stage: deploy
