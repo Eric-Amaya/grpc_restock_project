@@ -6,9 +6,7 @@ variables:
 
 stages:
   - build
-  - list-images
   - test
-  - push
   - deploy
 
 services:
@@ -16,24 +14,18 @@ services:
 
 before_script:
   - docker info
+  - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
 
-build:
+build-and-push:
   stage: build
   script:
     - echo "Building Docker images..."
     - docker-compose -f docker-compose.yaml build
-    - echo "Build completed. Listing images..."
+    - echo "Build completed. Pushing images..."
+    - docker-compose -f docker-compose.yaml push
+    - echo "Images pushed. Listing images..."
     - docker images
   timeout: 20m
-  artifacts:
-    paths:
-      - docker-compose.yaml
-
-list-images:
-  stage: list-images
-  script:
-    - echo "Listing Docker images..."
-    - docker images
 
 test:
   stage: test
@@ -46,12 +38,6 @@ test:
   artifacts:
     paths:
       - coverage/
-
-push:
-  stage: push
-  script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
-    - docker-compose -f docker-compose.yaml push
 
 deploy:
   stage: deploy
