@@ -5,7 +5,7 @@ services:
     build:
       context: ./grpc-nest-proto-api-gateway-main
       dockerfile: Dockerfile
-    image: api-gateway:latest
+    image: ericamaya29/api-gateway:latest
     container_name: api-gateway-restock
     ports:
       - '8000:8000'
@@ -23,7 +23,7 @@ services:
     build:
       context: ./grpc-nest-proto-auth-ms-main
       dockerfile: Dockerfile
-    image: auth-service:latest
+    image: ericamaya29/auth-service:latest
     container_name: auth-service
     ports:
       - '5051:5051'
@@ -41,7 +41,7 @@ services:
     build:
       context: ./grpc-nest-proto-order-ms-main
       dockerfile: Dockerfile
-    image: order-service:latest
+    image: ericamaya29/order-service:latest
     container_name: order-service
     ports:
       - '5052:5052'
@@ -61,7 +61,7 @@ services:
     build:
       context: ./grpc-nest-proto-product-ms-main
       dockerfile: Dockerfile
-    image: product-service:latest
+    image: ericamaya29/product-service:latest
     container_name: product-service
     ports:
       - '5053:5053'

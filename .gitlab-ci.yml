@@ -6,6 +6,7 @@ variables:
 
 stages:
   - build
+  - list-images
   - test
   - push
   - deploy
@@ -24,6 +25,12 @@ build:
   artifacts:
     paths:
       - docker-compose.yaml
+
+list-images:
+  stage: list-images
+  script:
+    - echo "Listing Docker images..."
+    - docker images
 
 test:
   stage: test
