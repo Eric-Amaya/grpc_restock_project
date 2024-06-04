@@ -16,7 +16,8 @@ before_script:
   - echo "Logging in to Docker registry..."
   - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
   - echo "Login successful."
-  - docker info
+  - echo "Enabling Docker BuildKit..."
+  - export DOCKER_BUILDKIT=1
 
 build-and-push:
   stage: build
