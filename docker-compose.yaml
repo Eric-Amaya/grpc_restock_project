@@ -25,8 +25,8 @@ services:
       - NODE_ENV=production
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=123456
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=ms_auth
     depends_on:
       - db
@@ -40,8 +40,8 @@ services:
       - NODE_ENV=production 
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=123456
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=ms_order
       - AUTH_SERVICE_URL=auth-service:5051
       - PRODUCT_SERVICE_URL=product-service:5053
@@ -57,8 +57,8 @@ services:
       - NODE_ENV=production 
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=123456
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=ms_product
     depends_on:
       - db
@@ -69,8 +69,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_USERNAME}
       POSTGRES_DB: ms_auth
     volumes:
       - pgdata:/var/lib/postgresql/data
