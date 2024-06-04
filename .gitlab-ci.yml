@@ -44,10 +44,10 @@ test:
     - docker-compose -f docker-compose.yaml exec order-service npm test -- --coverage
     - echo "Running tests for product-service..."
     - docker-compose -f docker-compose.yaml exec product-service npm test -- --coverage
+    - echo "Tests completed. Saving coverage reports..."
   artifacts:
     paths:
       - coverage/
-  - echo "Tests completed. Saving coverage reports."
 
 deploy:
   stage: deploy
