@@ -20,7 +20,10 @@ before_script:
 build:
   stage: build
   script:
+    - echo "Building Docker images..."
     - docker-compose -f docker-compose.yaml build
+    - echo "Build completed. Listing images..."
+    - docker images
   timeout: 20m
   artifacts:
     paths:
