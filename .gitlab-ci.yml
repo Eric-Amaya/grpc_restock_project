@@ -13,37 +13,52 @@ services:
   - docker:24.0.5-dind
 
 before_script:
-  - docker info
+  - echo "Logging in to Docker registry..."
   - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
+  - echo "Login successful."
+  - docker info
 
 build-and-push:
   stage: build
   script:
     - echo "Building Docker images..."
     - docker-compose -f docker-compose.yaml build
-    - echo "Build completed. Pushing images..."
+    - echo "Build completed."
+    - echo "Pushing Docker images to the registry..."
     - docker-compose -f docker-compose.yaml push
-    - echo "Images pushed. Listing images..."
+    - echo "Images pushed successfully."
+    - echo "Listing all Docker images..."
     - docker images
   timeout: 20m
 
 test:
   stage: test
   script:
+    - echo "Starting services using Docker Compose..."
     - docker-compose -f docker-compose.yaml up -d
+    - echo "Running tests for api-gateway..."
     - docker-compose -f docker-compose.yaml exec api-gateway npm test -- --coverage
+    - echo "Running tests for auth-service..."
     - docker-compose -f docker-compose.yaml exec auth-service npm test -- --coverage
+    - echo "Running tests for order-service..."
     - docker-compose -f docker-compose.yaml exec order-service npm test -- --coverage
+    - echo "Running tests for product-service..."
     - docker-compose -f docker-compose.yaml exec product-service npm test -- --coverage
   artifacts:
     paths:
       - coverage/
+    - echo "Tests completed. Saving coverage reports."
 
 deploy:
   stage: deploy
   script:
+    - echo "Logging in to Docker registry for deployment..."
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
+    - echo "Login successful."
+    - echo "Pulling latest Docker images..."
     - docker-compose -f docker-compose.yaml pull
+    - echo "Starting services with the latest images..."
     - docker-compose -f docker-compose.yaml up -d
+    - echo "Deployment completed successfully."
   only:
     - main
