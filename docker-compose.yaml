@@ -51,7 +51,6 @@ services:
   product-service:
     image: ericamaya29/product-service:latest
     container_name: product-service
-    mem_limit: 1g
     ports:
       - '5053:5053'
     environment:

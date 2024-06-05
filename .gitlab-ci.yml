@@ -40,9 +40,10 @@ build-and-push:
 
 test:
   stage: test
-  script:
+  before_script:
     - echo "Starting services using Docker Compose..."
     - docker-compose -f docker-compose.yaml up -d
+  script:
     - echo "Running tests for api-gateway..."
     - docker-compose -f docker-compose.yaml exec api-gateway npm test -- --coverage
     - echo "Running tests for auth-service..."
