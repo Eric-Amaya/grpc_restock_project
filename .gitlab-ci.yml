@@ -19,7 +19,7 @@ before_script:
   - echo "Enabling Docker BuildKit..."
   - export DOCKER_BUILDKIT=1
 
-build-and-push:
+build:
   stage: build
   script:
     - echo "Building Docker images..."
@@ -28,12 +28,21 @@ build-and-push:
     - docker build -t ericamaya29/order-service:latest ./grpc-nest-proto-order-ms-main
     - docker build -t ericamaya29/product-service:latest ./grpc-nest-proto-product-ms-main
     - echo "Build completed."
+  timeout: 20m
+
+push:
+  stage: build
+  script:
     - echo "Pushing Docker images to the registry..."
     - docker push ericamaya29/api-gateway:latest
     - docker push ericamaya29/auth-service:latest
     - docker push ericamaya29/order-service:latest
     - docker push ericamaya29/product-service:latest
     - echo "Images pushed successfully."
+  timeout: 20m
+
+list-images:
+  stage: build
     - echo "Listing all Docker images..."
     - docker images
   timeout: 20m
@@ -42,7 +51,7 @@ test:
   stage: test
   before_script:
     - echo "Starting services using Docker Compose..."
-    - docker-compose -f docker-compose-test.yaml up -d
+    - docker-compose -f docker-compose.yaml up -d
   script:
     - echo "Running tests for api-gateway..."
     - docker-compose -f docker-compose.yaml exec api-gateway npm test -- --coverage
