@@ -32,6 +32,7 @@ build:
 
 push:
   stage: build
+  needs: ["build"]
   script:
     - echo "Pushing Docker images to the registry..."
     - docker push ericamaya29/api-gateway:latest
@@ -43,6 +44,7 @@ push:
 
 list-images:
   stage: build
+  needs: ["build"]
   script:
     - echo "Listing all Docker images..."
     - docker images
