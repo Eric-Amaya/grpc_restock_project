@@ -41,8 +41,6 @@ build-and-push:
 test:
   stage: test
   script:
-    - echo "Starting services using Docker Compose..."
-    - docker-compose -f docker-compose.yaml up -d
     - echo "Running tests for api-gateway..."
     - docker-compose -f docker-compose.yaml exec api-gateway npm test -- --coverage
     - echo "Running tests for auth-service..."
