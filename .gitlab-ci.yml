@@ -43,6 +43,7 @@ push:
 
 list-images:
   stage: build
+  script:
     - echo "Listing all Docker images..."
     - docker images
   timeout: 20m
