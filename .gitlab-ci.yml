@@ -19,7 +19,7 @@ before_script:
   - echo "Enabling Docker BuildKit..."
   - export DOCKER_BUILDKIT=1
 
-build:
+build-and-push:
   stage: build
   script:
     - echo "Building Docker images..."
@@ -28,24 +28,12 @@ build:
     - docker build -t ericamaya29/order-service:latest ./grpc-nest-proto-order-ms-main
     - docker build -t ericamaya29/product-service:latest ./grpc-nest-proto-product-ms-main
     - echo "Build completed."
-  timeout: 20m
-
-push:
-  stage: build
-  needs: ["build"]
-  script:
     - echo "Pushing Docker images to the registry..."
     - docker push ericamaya29/api-gateway:latest
     - docker push ericamaya29/auth-service:latest
     - docker push ericamaya29/order-service:latest
     - docker push ericamaya29/product-service:latest
     - echo "Images pushed successfully."
-  timeout: 20m
-
-list-images:
-  stage: build
-  needs: ["build"]
-  script:
     - echo "Listing all Docker images..."
     - docker images
   timeout: 20m
