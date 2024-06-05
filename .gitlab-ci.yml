@@ -41,6 +41,8 @@ build-and-push:
 test:
   stage: test
   script:
+    - echo "Starting services using Docker Compose..."
+    - docker-compose -f docker-compose.yaml up -d
     - echo "Running tests for api-gateway..."
     - docker-compose -f docker-compose.yaml exec api-gateway npm test -- --coverage
     - echo "Running tests for auth-service..."
@@ -50,9 +52,6 @@ test:
     - echo "Running tests for product-service..."
     - docker-compose -f docker-compose.yaml exec product-service npm test -- --coverage
     - echo "Tests completed. Saving coverage reports..."
-  artifacts:
-    paths:
-      - coverage/
 
 deploy:
   stage: deploy
