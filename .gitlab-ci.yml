@@ -26,7 +26,7 @@ build-and-push:
     - docker build -t ericamaya29/api-gateway:latest ./grpc-nest-proto-api-gateway-main
     - docker build -t ericamaya29/auth-service:latest ./grpc-nest-proto-auth-ms-main
     - docker build -t ericamaya29/order-service:latest ./grpc-nest-proto-order-ms-main
-    - docker build -t ericamaya29/product-service:latest ./grpc-nest-proto-product-ms-main
+    - docker build -t ericamaya29/product-service:latest ./grpc-go-proto-product-ms-main
     - echo "Build completed."
     - echo "Pushing Docker images to the registry..."
     - docker push ericamaya29/api-gateway:latest
