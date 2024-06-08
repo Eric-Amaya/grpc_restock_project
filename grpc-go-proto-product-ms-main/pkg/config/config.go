@@ -12,13 +12,10 @@ type Config struct {
 func LoadConfig() (config Config, err error) {
 	viper.AutomaticEnv()
 
-	err = viper.ReadInConfig()
-
-	if err != nil {
-		return
-	}
-
 	err = viper.Unmarshal(&config)
+	if err != nil {
+		log.Fatalf("Unable to decode into struct, %v", err)
+	}
 
 	return
 }
