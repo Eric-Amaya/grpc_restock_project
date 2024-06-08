@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v5.27.0
-// source: product.proto
+// source: grpc-nest-proto-order-manager-app-main/proto/product.proto
 
 package pb
 
@@ -173,5 +173,5 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "product.proto",
+	Metadata: "grpc-nest-proto-order-manager-app-main/proto/product.proto",
 }
