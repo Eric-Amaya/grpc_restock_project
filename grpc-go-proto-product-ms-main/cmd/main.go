@@ -28,13 +28,13 @@ func main() {
     h.DB.AutoMigrate(&models.Product{})
     h.DB.AutoMigrate(&models.StockDecreaseLog{})
 
-	lis, err := net.Listen("tcp", c.Port)
+	address := fmt.Sprintf(":%s", c.Port)
+    lis, err := net.Listen("tcp", address)
+    if err != nil {
+        log.Fatalln("Failed to listen:", err)
+    }
 
-	if err != nil {
-		log.Fatalln("Failed to listing:", err)
-	}
-
-	fmt.Println("Product Svc on", c.Port)
+    fmt.Println("Product Svc on", c.Port)
 
 	s := services.Server{
 		H: h,
