@@ -1,33 +1,28 @@
 package db
 
 import (
-	"log"
-	"os"
+    "fmt"
+    "log"
 
-	"grpc-go-proto-product-ms-main/pkg/models"
-
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+    "gorm.io/driver/postgres"
+    "gorm.io/gorm"
 )
 
 type Handler struct {
-	DB *gorm.DB
+    DB *gorm.DB
 }
 
-func Init() Handler {
-	url := os.Getenv("DB_URL")
-	if url == "" {
-		log.Fatalln("DB_URL environment variable is not set")
-	}
+func Init(host, port, user, password, dbname string) Handler {
+    // Crear la cadena de conexión
+    connectionString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+        host, port, user, password, dbname)
 
-	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
-	if err != nil {
-		log.Fatalln("Failed to connect to database:", err)
-	}
+    db, err := gorm.Open(postgres.Open(connectionString), &gorm.Config{})
+    if err != nil {
+        log.Fatalln("Failed to connect to database:", err)
+    }
 
-	db.AutoMigrate(&models.Product{})
-	db.AutoMigrate(&models.StockDecreaseLog{})
-
-	return Handler{DB: db}
+    return Handler{DB: db}
 }
+
 

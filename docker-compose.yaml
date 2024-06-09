@@ -55,8 +55,12 @@ services:
       - '5053:5053'
     environment:
       - NODE_ENV=production 
-      - PORT=:5053
-      - DB_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@db:5432/ms_product
+      - PORT=5053
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=ms_product
     depends_on:
       - db
   
