@@ -6,7 +6,7 @@ import (
 
 	"grpc-go-proto-product-ms-main/pkg/db"
 	"grpc-go-proto-product-ms-main/pkg/models"
-	pb "grpc-go-proto-product-ms-main/pkg/pb"
+	pb "grpc-go-proto-product-ms-main/pkg/proto"
 )
 
 type Server struct {
