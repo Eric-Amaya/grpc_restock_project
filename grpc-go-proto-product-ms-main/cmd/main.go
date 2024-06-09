@@ -7,7 +7,7 @@ import (
 
 	"grpc-go-proto-product-ms-main/pkg/config"
 	"grpc-go-proto-product-ms-main/pkg/db"
-	pb "grpc-go-proto-product-ms-main/pkg/proto"
+	pb "grpc-go-proto-product-ms-main/pkg/pb"
 	services "grpc-go-proto-product-ms-main/pkg/services"
 
 	"google.golang.org/grpc"
@@ -15,15 +15,16 @@ import (
 
 func main() {
 	c, err := config.LoadConfig()
-
 	if err != nil {
 		log.Fatalln("Failed at config", err)
 	}
 
-	h := db.Init(c.DBUrl)
+	fmt.Println(c)
+
+	// Inicializar la base de datos sin pasar ningún argumento
+	h := db.Init()
 
 	lis, err := net.Listen("tcp", c.Port)
-
 	if err != nil {
 		log.Fatalln("Failed to listing:", err)
 	}
