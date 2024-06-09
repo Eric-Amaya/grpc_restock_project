@@ -2,6 +2,7 @@ package db
 
 import (
 	"log"
+	"os"
 
 	"grpc-go-proto-product-ms-main/pkg/models"
 
@@ -13,15 +14,20 @@ type Handler struct {
 	DB *gorm.DB
 }
 
-func Init(url string) Handler {
-	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
+func Init() Handler {
+	url := os.Getenv("DB_URL")
+	if url == "" {
+		log.Fatalln("DB_URL environment variable is not set")
+	}
 
+	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalln("Failed to connect to database:", err)
 	}
 
 	db.AutoMigrate(&models.Product{})
 	db.AutoMigrate(&models.StockDecreaseLog{})
 
-	return Handler{db}
+	return Handler{DB: db}
 }
+
