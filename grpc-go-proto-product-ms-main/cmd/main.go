@@ -7,7 +7,7 @@ import (
 
 	"grpc-go-proto-product-ms-main/pkg/config"
 	"grpc-go-proto-product-ms-main/pkg/db"
-	pb "grpc-go-proto-product-ms-main/pkg/pb"
+	pb "grpc-go-proto-product-ms-main/pkg/proto"
 	services "grpc-go-proto-product-ms-main/pkg/services"
 
 	"google.golang.org/grpc"
