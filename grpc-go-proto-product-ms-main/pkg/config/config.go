@@ -9,12 +9,12 @@ import (
 )
 
 type Config struct {
-    Port     string `mapstructure:"PORT"`
-    DBHost   string `mapstructure:"DB_HOST"`
-    DBPort   string `mapstructure:"DB_PORT"`
-    DBUser   string `mapstructure:"DB_USER"`
-    DBPass   string `mapstructure:"DB_PASS"`
-    DBName   string `mapstructure:"DB_NAME"`
+    Port   string `mapstructure:"PORT"`
+    DBHost string `mapstructure:"DB_HOST"`
+    DBPort string `mapstructure:"DB_PORT"`
+    DBUser string `mapstructure:"DB_USER"`
+    DBPass string `mapstructure:"DB_PASS"`
+    DBName string `mapstructure:"DB_NAME"`
 }
 
 func LoadConfig() (Config, error) {
@@ -24,15 +24,15 @@ func LoadConfig() (Config, error) {
     viper.SetConfigFile(".env")
     
     // Leer las variables de entorno del archivo .env
-    err := viper.ReadInConfig()
-    if err != nil {
-        log.Fatalf("Error reading .env file: %v", err)
-        return config, err
+    if err := viper.ReadInConfig(); err != nil {
+        log.Printf("Error reading .env file: %v", err)
     }
 
+    // Habilitar la lectura de variables de entorno del sistema
+    viper.AutomaticEnv()
+
     // Unmarshal las variables de entorno en la estructura Config
-    err = viper.Unmarshal(&config)
-    if err != nil {
+    if err := viper.Unmarshal(&config); err != nil {
         log.Fatalf("Unable to decode into struct, %v", err)
         return config, err
     }
@@ -40,4 +40,3 @@ func LoadConfig() (Config, error) {
 
     return config, nil
 }
-
