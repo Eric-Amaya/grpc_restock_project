@@ -15,37 +15,37 @@ import (
 )
 
 func main() {
-    // Cargar la configuración desde el archivo .env
-    c, err := config.LoadConfig()
-    if err != nil {
-        log.Fatalln("Failed to load config:", err)
-    }
+	c, err := config.LoadConfig()
 
-    fmt.Println("Config:", c)
+	if err != nil {
+		log.Fatalln("Failed at config", err)
+	}
 
-    // Inicializar la base de datos con los parámetros de configuración
-    h := db.Init(c.DBHost, c.DBPort, c.DBUser, c.DBPass, c.DBName)
+	fmt.Println(c)
 
-    // Ejecuta la migración
+	h := db.Init(c.DBUrl)
+
     h.DB.AutoMigrate(&models.Product{})
     h.DB.AutoMigrate(&models.StockDecreaseLog{})
 
-    // Crear el listener
-    lis, err := net.Listen("tcp", ":"+c.Port)
-    if err != nil {
-        log.Fatalf("Failed to listen: %v", err)
-    }
+	lis, err := net.Listen("tcp", c.Port)
 
-    fmt.Println("Product Service on port", c.Port)
+	if err != nil {
+		log.Fatalln("Failed to listing:", err)
+	}
 
-    // Crear un nuevo servidor gRPC
-    grpcServer := grpc.NewServer()
+	fmt.Println("Product Svc on", c.Port)
 
-    // Registrar el servicio de productos en el servidor gRPC
-    pb.RegisterProductServiceServer(grpcServer, &services.Server{H: h})
+	s := services.Server{
+		H: h,
+	}
 
-    // Empezar a escuchar conexiones
-    if err := grpcServer.Serve(lis); err != nil {
-        log.Fatalf("Failed to serve: %v", err)
-    }
+	grpcServer := grpc.NewServer()
+
+	pb.RegisterProductServiceServer(grpcServer, &s)
+
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalln("Failed to serve:", err)
+	}
 }
+

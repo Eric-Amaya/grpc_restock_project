@@ -1,42 +1,26 @@
 package config
 
-import (
-    "fmt"
-    "log"
-
-    "github.com/spf13/viper"
-    _ "github.com/lib/pq"
-)
+import "github.com/spf13/viper"
 
 type Config struct {
-    Port   string `mapstructure:"PORT"`
-    DBHost string `mapstructure:"DB_HOST"`
-    DBPort string `mapstructure:"DB_PORT"`
-    DBUser string `mapstructure:"DB_USER"`
-    DBPass string `mapstructure:"DB_PASS"`
-    DBName string `mapstructure:"DB_NAME"`
+	Port  string `mapstructure:"PORT"`
+	DBUrl string `mapstructure:"DB_URL"`
 }
 
-func LoadConfig() (Config, error) {
-    var config Config
+func LoadConfig() (config Config, err error) {
+	viper.AddConfigPath("./pkg/config/envs")
+	viper.SetConfigName("dev")
+	viper.SetConfigType("env")
 
-    // Indicar a Viper que use el formato .env
-    viper.SetConfigFile(".env")
-    
-    // Leer las variables de entorno del archivo .env
-    if err := viper.ReadInConfig(); err != nil {
-        log.Printf("Error reading .env file: %v", err)
-    }
+	viper.AutomaticEnv()
 
-    // Habilitar la lectura de variables de entorno del sistema
-    viper.AutomaticEnv()
+	err = viper.ReadInConfig()
 
-    // Unmarshal las variables de entorno en la estructura Config
-    if err := viper.Unmarshal(&config); err != nil {
-        log.Fatalf("Unable to decode into struct, %v", err)
-        return config, err
-    }
-    fmt.Println("Variables de entorno cargadas:", viper.AllSettings())
+	if err != nil {
+		return
+	}
 
-    return config, nil
+	err = viper.Unmarshal(&config)
+
+	return
 }
