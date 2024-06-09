@@ -20,7 +20,7 @@ COPY . .
 RUN go mod download
 
 # Generar los archivos .pb.go y .pb.go.grpc a partir de los archivos .proto
-#RUN protoc --go_out=..\grpc-go-proto-product-ms-main\pkg --go_opt=paths=source_relative --go-grpc_out=..\grpc-go-proto-product-ms-main\pkg --go-grpc_opt=paths=source_relative proto\product.proto
+RUN protoc --go_out=../grpc-go-proto-product-ms-main/pkg --go_opt=paths=source_relative --go-grpc_out=../grpc-go-proto-product-ms-main/pkg --go-grpc_opt=paths=source_relative proto/product.proto
 
 # Compilar el binario
 RUN go build -o main ./cmd
