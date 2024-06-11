@@ -35,7 +35,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
-    "grpc-nest-proto": "gitlab:restock_group/grpc-nest-proto-order-manager-app-main",
+    "grpc-nest-proto": "git@gitlab.com:restock_group/grpc-nest-proto-order-manager-app-main.git",
     "mysql2": "^3.10.0",
     "pg": "^8.11.5",
     "reflect-metadata": "^0.1.13",
