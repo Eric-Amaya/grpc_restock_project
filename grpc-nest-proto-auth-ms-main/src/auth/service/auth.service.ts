@@ -54,7 +54,7 @@ export class AuthService {
             return { status: HttpStatus.NOT_FOUND, error: ['Invalid password'], token: null };
         }
 
-        const token: string = this.jwtService.generateToken(auth);
+        const token: string = await this.jwtService.generateToken(auth);
 
         return { token, status: HttpStatus.OK, error: null };
     }
@@ -63,16 +63,16 @@ export class AuthService {
         const decoded: Auth = await this.jwtService.verifyToken(token);
 
         if(!decoded) {
-            return { status: HttpStatus.FORBIDDEN, error: ['Invalid token'], userId: null };
+            return { status: HttpStatus.FORBIDDEN, error: ['Invalid token'], userId: null, role: null };
         }
 
         const auth: Auth = await this.jwtService.validateUser(decoded);
 
         if(!auth) {
-            return { status: HttpStatus.CONFLICT, error: ['User not found'], userId: null };
+            return { status: HttpStatus.CONFLICT, error: ['User not found'], userId: null, role: null };
         }
 
-        return { status: HttpStatus.OK, error: null, userId: decoded.id };
+        return { status: HttpStatus.OK, error: null, userId: decoded.id, role: decoded.role };
     }
 
     public async remove({ token }: RemoveRequestDto): Promise<RemoveResponse> {

@@ -6,12 +6,15 @@ import { Auth } from './auth.entity';
 import { AuthService } from './service/auth.service';
 import { JwtService } from './service/jwt.service';
 import { JwtStrategy } from './strategy/jwt.strategy';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'dev',
-      signOptions: { expiresIn: '365d' },
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1d' },
     }),
     TypeOrmModule.forFeature([Auth]),
   ],

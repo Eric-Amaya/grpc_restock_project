@@ -8,6 +8,8 @@ import { AUTH_SERVICE_NAME } from './auth/auth.pb';
 import { ORDER_SERVICE_NAME } from './order/order.pb';
 import { PRODUCT_SERVICE_NAME } from './product/product.pb';
 import * as dotenv from 'dotenv';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt/dist/jwt.module';
 
 dotenv.config();
 
@@ -42,6 +44,11 @@ dotenv.config();
         },
       },
     ]),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1d' },
+    }),
   ],
   controllers: [AuthController, OrderController, ProductController],
 })

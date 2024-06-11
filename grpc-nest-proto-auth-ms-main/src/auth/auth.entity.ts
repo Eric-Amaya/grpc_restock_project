@@ -1,5 +1,6 @@
 import { Exclude } from "class-transformer";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Role } from "./enums/role.enum";
 
 @Entity()
 export class Auth extends BaseEntity {
@@ -13,6 +14,6 @@ export class Auth extends BaseEntity {
     @Column( {type: 'varchar'} )
     public password!: string;
 
-    @Column( {type: 'varchar', default: 'mesero'} )
-    public role: string;
+    @Column( {type: 'enum', default: Role.USER, enum: Role} )
+    public role: Role;
 }

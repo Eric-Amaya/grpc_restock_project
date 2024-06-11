@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PRODUCT_PACKAGE_NAME, PRODUCT_SERVICE_NAME } from './product.pb';
 import { ProductController } from './product.controller';
+import { AuthGuard } from '../guard/auth.guard';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -16,7 +18,9 @@ import { ProductController } from './product.controller';
         },
       },
     ]),
+    AuthModule
   ],
   controllers: [ProductController],
+  providers: [AuthGuard],
 })
 export class ProductModule {}

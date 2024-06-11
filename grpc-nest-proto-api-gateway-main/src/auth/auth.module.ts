@@ -3,6 +3,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AuthController } from './auth.controller';
 import { AUTH_SERVICE_NAME, AUTH_PACKAGE_NAME } from './auth.pb';
 import { AuthService } from './auth.service';
+import { AuthGuard } from '../guard/auth.guard';
+import { JwtModule } from '@nestjs/jwt';
 
 @Global()
 @Module({
@@ -20,7 +22,13 @@ import { AuthService } from './auth.service';
     ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
-  exports: [AuthService],
+  providers: [
+    AuthService,
+    AuthGuard
+  ],
+  exports: [
+    AuthService,
+    AuthGuard
+  ],
 })
 export class AuthModule {}
