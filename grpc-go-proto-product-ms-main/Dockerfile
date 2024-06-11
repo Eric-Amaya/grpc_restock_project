@@ -25,7 +25,7 @@ RUN go mod download
 # Compilar el binario
 RUN go build -o main ./cmd
 
-# Exponer el puerto en el que corre el servicio
+# Exponer el puerto en el que corre el servicio 5053
 EXPOSE 5053
 
 # Comando para ejecutar el binario
